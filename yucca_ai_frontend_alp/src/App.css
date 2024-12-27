@@ -1,0 +1,283 @@
+/* General Styling */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Menetapkan tinggi body agar menutupi seluruh layar */
+  background-image: url('/images/gedung-UC.jpg');
+  background-size: cover; /* Menutupi seluruh layar */
+  background-position: center; /* Memusatkan gambar */
+  background-repeat: no-repeat; /* Mencegah pengulangan gambar */
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(219, 143, 21, 0.2); /* 30% opacity, lebih transparan */
+  z-index: -1;
+}
+
+.app-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;  /* Center vertically */
+  width: 100%;
+  padding-right: 150px;
+}
+
+.app-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 500px;
+  height: 700px;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.app-image {
+  max-width: 300px; /* You can adjust the size as per your preference */
+  height: auto;
+  margin-left: 300px; /* Space between image and the card */
+}
+
+
+.app-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Controls Section */
+.controls button {
+  font-size: 1.2em;
+  padding: 12px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.start-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.start-btn:hover {
+  background: #45a049;
+  transform: scale(1.1);
+}
+
+.stop-btn {
+  background: #f44336;
+  color: white;
+}
+
+.stop-btn:hover {
+  background: #e53935;
+  transform: scale(1.1);
+}
+
+button .icon {
+  margin-right: 10px;
+}
+
+/* Gelombang suara */
+.wave-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.wave {
+  width: 10px;
+  height: 30px;
+  background-color: #00bcd4;
+  margin: 0 5px;
+  border-radius: 5px;
+  transition: height 0.1s ease;
+  animation: wave-animation 0.5s infinite ease-in-out;
+}
+
+.wave:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.wave:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1.5); /* Bigger peaks */
+  }
+  100% {
+    transform: scaleY(0.4);
+  }
+}
+
+.transcript-section {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.transcript-section h2 {
+  margin-bottom: 10px;
+}
+
+.transcript-section p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.interim {
+  color: gray;
+  font-style: italic;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+p {
+  font-size: 1.2em;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Pengaturan untuk tombol */
+.controls button {
+  font-size: 1.2em;
+  padding: 12px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/* Kontainer untuk transkrip chat */
+.chat-section {
+  height: 400px; /* Set a fixed height for the chat box */
+  max-height: 400px; /* Ensure it doesn't exceed this height */
+  overflow-y: auto; /* Enable scrolling when content overflows */
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column; /* Stack messages vertically */
+  border: 1px solid #ddd; /* Optional: add a border around the chat section */
+  border-radius: 10px; /* Rounded corners */
+  padding: 10px;
+}
+
+.chat-box {
+  display: flex;
+  flex-direction: column; /* Stack chat messages */
+  gap: 10px; /* Space between messages */
+}
+
+/* Chat message container */
+.chat-message-container {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Default to left */
+}
+
+.chat-message-container.user {
+  align-items: flex-end; /* Align user messages to the right */
+}
+
+.chat-message {
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 80%;
+  word-wrap: break-word; /* Ensure long words break properly */
+}
+
+
+/* Pesan pengguna (di kanan) */
+.chat-message.user {
+  background-color: #bfefff;
+  padding: 10px;
+  border-radius: 10px;
+  align-self: flex-end;
+}
+
+.chat-message.user.interim {
+  background-color: #ffffe0; /* Light color for interim messages */
+  opacity: 0.7;
+}
+
+/* Pesan AI (di kiri) */
+.chat-message.ai {
+  background-color: #f7a65f;
+  padding: 10px;
+  border-radius: 10px;
+  align-self: flex-start;
+}
+
+.chat-sender-name {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+  align-self: flex-start;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column; /* Stack image and caption vertically */
+  align-items: center; /* Center both the image and caption horizontally */
+  margin-left: 20px; /* Adjust the margin if necessary */
+}
+
+.app-image {
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 10px; /* Add space between the image and the caption */
+}
+
+
+.image-caption {
+  margin-top: 8px;
+  font-size: 38px;
+  font-weight: bold;
+  
+  color: rgb(255, 237, 227);
+  background: rgba(255, 160, 35, 0.6);
+  text-align: center;
+  border: none;
+  font-family: 'Lobster', cursive;
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 15px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  margin-left: 300px; /* Tambahkan margin kanan jika perlu untuk memberi ruang */
+}
+
