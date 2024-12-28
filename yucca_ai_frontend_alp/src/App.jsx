@@ -1,14 +1,34 @@
+/* eslint-disable react/no-unknown-property */
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import { FaMicrophone, FaStop } from "react-icons/fa";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+
+function Model() {
+  const { scene } = useGLTF("/models/yucca3d.glb"); // Ensure the path is correct
+  
+  // Animasi rotasi otomatis
+  useFrame(() => {
+    scene.rotation.y += 0.01; // Rotasi pada sumbu Y (kiri/kanan)
+  });
+
+  return (
+    <primitive
+      object={scene}
+      scale={[1.5, 1.5, 1.5]}
+      position={[0.1, -0.9, 0]} // Posisi model
+    />
+  );
+}
 
 const App = () => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState([]);
   const [interimTranscript, setInterimTranscript] = useState("");
-  const [borderTransition, setBorderTransition] = useState(0);
+  // const [borderTransition, setBorderTransition] = useState(0);
   const recognitionRef = useRef(null);
-  const chatBoxRef = useRef(null); 
+  const chatBoxRef = useRef(null);
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -27,22 +47,22 @@ const App = () => {
         microphoneStream = audioContext.createMediaStreamSource(stream);
         microphoneStream.connect(analyser);
 
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
+        // const bufferLength = analyser.frequencyBinCount;
+        // const dataArray = new Uint8Array(bufferLength);
 
-        const getAmplitude = () => {
-          analyser.getByteFrequencyData(dataArray);
-          const sum = dataArray.reduce((a, b) => a + b, 0);
-          return sum / bufferLength;
-        };
+        // const getAmplitude = () => {
+        //   analyser.getByteFrequencyData(dataArray);
+        //   const sum = dataArray.reduce((a, b) => a + b, 0);
+        //   return sum / bufferLength;
+        // };
 
-        const updateWave = () => {
-          const amplitude = getAmplitude();
-          setBorderTransition(amplitude);
-          requestAnimationFrame(updateWave);
-        };
+        // const updateWave = () => {
+        //   const amplitude = getAmplitude();
+        //   setBorderTransition(amplitude);
+        //   requestAnimationFrame(updateWave);
+        // };
 
-        updateWave();
+        // updateWave();
       });
 
       return () => {
@@ -64,9 +84,9 @@ const App = () => {
       recognition.lang = "en-US";
 
       recognition.onresult = (event) => {
-        let finalTranscript = '';
-        let interimTranscriptPart = '';
-        
+        let finalTranscript = "";
+        let interimTranscriptPart = "";
+
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcriptPart = event.results[i][0].transcript;
           if (event.results[i].isFinal) {
@@ -81,16 +101,15 @@ const App = () => {
         if (finalTranscript) {
           setTranscript((prev) => [
             ...prev,
-            { text: finalTranscript, isFinal: true, sender: 'user' },
+            { text: finalTranscript, isFinal: true, sender: "user" },
           ]);
-        }
 
-        if (finalTranscript) {
+          // Simulate AI response
           setTimeout(() => {
             const aiResponse = "Yucca: " + finalTranscript;
             setTranscript((prev) => [
               ...prev,
-              { text: aiResponse, isFinal: true, sender: 'ai' },
+              { text: aiResponse, isFinal: true, sender: "ai" },
             ]);
           }, 1000);
         }
@@ -114,7 +133,7 @@ const App = () => {
   const handleStopListening = () => {
     setIsListening(false);
     recognitionRef.current?.stop();
-    setBorderTransition(0);
+    // setBorderTransition(0);
   };
 
   return (
@@ -122,10 +141,10 @@ const App = () => {
       <div
         className="app-card"
         style={{
-          borderWidth: isListening ? '5px' : '0px',
-          borderColor: 'red',
-          borderStyle: 'solid',
-          transition: 'border-width 0.3s ease',
+          borderWidth: isListening ? "5px" : "0px",
+          borderColor: "red",
+          borderStyle: "solid",
+          transition: "border-width 0.3s ease",
         }}
       >
         <h1 className="app-title">Yucca GPT</h1>
@@ -141,20 +160,31 @@ const App = () => {
           )}
         </div>
 
-        {isListening && (
+        {/* {isListening && (
           <div className="wave-container">
-            <div className="wave" style={{ height: `${borderTransition}px` }}></div>
-            <div className="wave" style={{ height: `${borderTransition}px` }}></div>
-            <div className="wave" style={{ height: `${borderTransition}px` }}></div>
+            <div
+              className="wave"
+              style={{ height: `${borderTransition}px` }}
+            ></div>
+            <div
+              className="wave"
+              style={{ height: `${borderTransition}px` }}
+            ></div>
+            <div
+              className="wave"
+              style={{ height: `${borderTransition}px` }}
+            ></div>
           </div>
-        )}
+        )} */}
 
         <div className="chat-section">
           <div className="chat-box" ref={chatBoxRef}>
             {transcript.map((message, index) => (
               <div
                 key={index}
-                className={`chat-message ${message.sender === "user" ? "user" : "ai"}`}
+                className={`chat-message ${
+                  message.sender === "user" ? "user" : "ai"
+                }`}
               >
                 {message.text}
               </div>
@@ -168,9 +198,21 @@ const App = () => {
 
       {/* Add Image to the right of the card */}
       <div className="image-container">
-    <img src="/images/yuccabajuan.png" alt="Yucca" className="app-image" />
-    <p className="image-caption">Yucca</p> {/* Text below the image */}
-  </div>
+        <Canvas
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          style={{ width: "700px", height: "100vh" }}
+        >
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <OrbitControls enableZoom={false} /> {/* Disables zoom */}
+          <ambientLight intensity={0.5} /> {/* Intensitas cahaya ambient */}
+          {/* Cahaya Arah (Directional) */}
+          <directionalLight position={[5, 5, 5]} intensity={1} />{" "}
+          {/* Posisi dan intensitas cahaya arah */}
+          <Model />
+        </Canvas>
+        <p className="image-caption">Yucca</p>
+      </div>
     </div>
   );
 };

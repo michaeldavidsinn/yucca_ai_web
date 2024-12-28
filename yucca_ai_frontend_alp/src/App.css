@@ -33,12 +33,13 @@ body::before {
 }
 
 .app-card {
+  margin-left: 170px;
   background: white;
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
-  width: 500px;
+  width: 700px;
   height: 700px;
   flex-shrink: 0; /* Prevent shrinking */
 }
@@ -265,10 +266,9 @@ p {
 
 
 .image-caption {
-  margin-top: 8px;
+  margin-bottom: 400px;
   font-size: 38px;
   font-weight: bold;
-  
   color: rgb(255, 237, 227);
   background: rgba(255, 160, 35, 0.6);
   text-align: center;
@@ -278,6 +278,6 @@ p {
   display: inline-block;
   border-radius: 15px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  margin-left: 300px; /* Tambahkan margin kanan jika perlu untuk memberi ruang */
+  margin-left: 30px; /* Tambahkan margin kanan jika perlu untuk memberi ruang */
 }
 
