@@ -26,9 +26,9 @@ const App = () => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState([]);
   const [interimTranscript, setInterimTranscript] = useState("");
-  // const [borderTransition, setBorderTransition] = useState(0);
+  const [borderTransition, setBorderTransition] = useState(0);
   const recognitionRef = useRef(null);
-  const chatBoxRef = useRef(null);
+  const chatBoxRef = useRef(null); 
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -47,22 +47,22 @@ const App = () => {
         microphoneStream = audioContext.createMediaStreamSource(stream);
         microphoneStream.connect(analyser);
 
-        // const bufferLength = analyser.frequencyBinCount;
-        // const dataArray = new Uint8Array(bufferLength);
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
 
-        // const getAmplitude = () => {
-        //   analyser.getByteFrequencyData(dataArray);
-        //   const sum = dataArray.reduce((a, b) => a + b, 0);
-        //   return sum / bufferLength;
-        // };
+        const getAmplitude = () => {
+          analyser.getByteFrequencyData(dataArray);
+          const sum = dataArray.reduce((a, b) => a + b, 0);
+          return sum / bufferLength;
+        };
 
-        // const updateWave = () => {
-        //   const amplitude = getAmplitude();
-        //   setBorderTransition(amplitude);
-        //   requestAnimationFrame(updateWave);
-        // };
+        const updateWave = () => {
+          const amplitude = getAmplitude();
+          setBorderTransition(amplitude);
+          requestAnimationFrame(updateWave);
+        };
 
-        // updateWave();
+        updateWave();
       });
 
       return () => {
@@ -141,10 +141,10 @@ const App = () => {
       <div
         className="app-card"
         style={{
-          borderWidth: isListening ? "5px" : "0px",
-          borderColor: "red",
-          borderStyle: "solid",
-          transition: "border-width 0.3s ease",
+          borderWidth: isListening ? '5px' : '0px',
+          borderColor: 'red',
+          borderStyle: 'solid',
+          transition: 'border-width 0.3s ease',
         }}
       >
         <h1 className="app-title">Yucca GPT</h1>
@@ -160,31 +160,20 @@ const App = () => {
           )}
         </div>
 
-        {/* {isListening && (
+        {isListening && (
           <div className="wave-container">
-            <div
-              className="wave"
-              style={{ height: `${borderTransition}px` }}
-            ></div>
-            <div
-              className="wave"
-              style={{ height: `${borderTransition}px` }}
-            ></div>
-            <div
-              className="wave"
-              style={{ height: `${borderTransition}px` }}
-            ></div>
+            <div className="wave" style={{ height: `${borderTransition}px` }}></div>
+            <div className="wave" style={{ height: `${borderTransition}px` }}></div>
+            <div className="wave" style={{ height: `${borderTransition}px` }}></div>
           </div>
-        )} */}
+        )}
 
         <div className="chat-section">
           <div className="chat-box" ref={chatBoxRef}>
             {transcript.map((message, index) => (
               <div
                 key={index}
-                className={`chat-message ${
-                  message.sender === "user" ? "user" : "ai"
-                }`}
+                className={`chat-message ${message.sender === "user" ? "user" : "ai"}`}
               >
                 {message.text}
               </div>
